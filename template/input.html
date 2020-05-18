@@ -1,0 +1,63 @@
+<%include file="header.html" />
+
+<p>
+This is an implementation of Decompostion Algorithm for Noisy Digital Contour
+</p>
+
+
+<h1>Use an example:</h1>
+<form action="${app.base_url + 'input_select'}" method="get">
+	<div class="action">
+	<p>
+	Click on an button to use it as the algorithm input.
+	</p>
+	<div style="max-height:30em; overflow:auto;">
+	%for id in sorted(inputd.keys()):
+		<div class="select_input">
+			<p style="text-align:center">
+			%for url in inputd[id]['tn_url']:
+			  <image type="image" src="${url}" alt="${inputd[id]['contour'] | h}" height="100"/>
+			  <br>
+			  <input type="submit" name="${id | h}" value="${inputd[id]['title'] | h}" />
+			%endfor
+			</p>
+		</div>
+	%endfor
+	</div>
+</form>
+
+<br>
+
+<h1>Upload Data</h1>
+<form action="${app.base_url + 'input_upload'}" method="post"
+      enctype="multipart/form-data">
+  <div class="action">
+    <p>
+      Upload your own files to use as the algorithm input.
+    </p>
+    <div class="upload_input">
+      %for i in range(app.input_nb - 1):
+      <label for="file_${i}">input file</label>
+      <input type="file" name="file_${i}" id="file_${i}" size="40" /><br />
+      %endfor
+      <%
+        i = app.input_nb - 1
+      %>
+      <label for="file_${i}">input file</label>
+      <input type="file" name="file_${i}" id="file_${i}" size="40" />&nbsp;
+      <input type="submit" value="upload" />
+    </div>
+    <p class="note">
+      The uploaded file shall be formatted such that each line contains a list of contour points 
+      and that the x, y coordinates of each point is separated by spaces.
+      1000 points is the maximum allowed.
+      <br>Example:
+      <br>37 164 37 165 37 166 38 166 39 166 39 167
+      <br>
+      <br>81 203 81 203 80 202 80 201 80 201 
+      <br>
+    </p>
+  </div>
+</form>
+
+<%include file="footer.html" />
